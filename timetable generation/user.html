@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Timetable Generator</h1>
+
+    <label for="subject9AM">9 AM:</label>
+    <input type="text" id="subject9AM" placeholder="Enter subject name for 9 AM">
+
+    <label for="subject10AM">10 AM:</label>
+    <input type="text" id="subject10AM" placeholder="Enter subject name for 10 AM">
+
+    <label for="subject11AM">11 AM:</label>
+    <input type="text" id="subject11AM" placeholder="Enter subject name for 11 AM">
+
+    <label for="subject12PM">12 PM:</label>
+    <input type="text" id="subject12PM" placeholder="Enter subject name for 12 PM">
+
+    <label for="subject1PM">1 PM:</label>
+    <input type="text" id="subject1PM" placeholder="Enter subject name for 1 PM">
+
+    <button onclick="generateTimetable()">Generate Timetable</button>
+
+    <table id="timetable">
+        <!-- Timetable will be displayed here -->
+    </table>
+    
+
+    <script>
+        function generateTimetable() {
+            var subject9AM = document.getElementById('subject9AM').value.trim();
+            var subject10AM = document.getElementById('subject10AM').value.trim();
+            var subject11AM = document.getElementById('subject11AM').value.trim();
+            var subject12PM = document.getElementById('subject12PM').value.trim();
+            var subject1PM = document.getElementById('subject1PM').value.trim();
+
+            if (!subject9AM || !subject10AM || !subject11AM || !subject12PM || !subject1PM) {
+                alert("Please enter valid input for all subjects");
+                return;
+            }
+
+            document.getElementById('timetable').innerHTML = "";
+
+            var table = "<tr><th>Time/Day</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr>";
+
+            var subjects = shuffle([subject9AM, subject10AM, subject11AM, subject12PM, subject1PM]);
+            var days = ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM'];
+
+            for (var i = 0; i < subjects.length; i++) {
+                table += "<tr><td>" + days[i] + "</td>";
+                for (var j = 0; j < 5; j++) {
+                    table += "<td>" + subjects[(i + j) % subjects.length] + "</td>";
+                }
+                table += "</tr>";
+            }
+
+            document.getElementById('timetable').innerHTML = table;
+        }
+
+        function shuffle(array) {
+            var currentIndex = array.length, randomIndex;
+
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+
+            return array;
+        }
+    </script>
+
+</body>
+</html>
